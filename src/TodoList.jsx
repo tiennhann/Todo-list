@@ -7,7 +7,7 @@ function TodoList() {
     // tasks will be the array of string
     // setTasks is the funciton for tasks
     // initial state of task will be empty array
-    const [tasks, setTasks] = useState(["eat breaskfast","take shower"]);
+    const [tasks, setTasks] = useState([]);
     // initial state of newTask will be empty string
     const [newTask, setNewTask] = useState("");
 
@@ -19,19 +19,33 @@ function TodoList() {
     }
 
     function addTask(){
-
+        if (newTask.trim() !== ""){
+            setTasks(t => [...t, newTask]);
+            setNewTask("");
+        }
     }
 
     function deleteTask(index){
-
+        const updatedTasks = tasks.filter((_,i) => i !== index);
+        setTasks(updatedTasks);
     }
 
     function moveTaskUp(index){
-
+        if (index > 0){
+            const updatedTasks = [...tasks];
+            [updatedTasks[index], updatedTasks[index -1]] = 
+            [updatedTasks[index-1],updatedTasks[index]];
+            setTasks(updatedTasks);
+        }
     }
 
     function moveTaskDown(index){
-
+        if (index < tasks.length-1){
+            const updatedTasks = [...tasks];
+            [updatedTasks[index], updatedTasks[index +1]] = 
+            [updatedTasks[index+1],updatedTasks[index]];
+            setTasks(updatedTasks);
+        }
     }
 
     return(
@@ -64,14 +78,14 @@ function TodoList() {
                         </button>
 
                         <button
-                            className="moveup-button"
+                            className="move-button"
                             onClick={() => moveTaskUp(index)}>
                             ⬆
                         </button>
 
                         <button
-                            className="movedown-button"
-                            onclick={() => moveTaskDown(index)}>
+                            className="move-button"
+                            onClick={() => moveTaskDown(index)}>
                             ⬇
                         </button>
                     </li>
